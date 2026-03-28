@@ -1,0 +1,20 @@
+{
+  "name": "freelance-toolkit",
+  "description": "Domain skills and project scaffolding for AI & Automation freelancing — n8n, GoHighLevel, AI chatbots, GCP, Shopify",
+  "version": "1.0.0",
+  "author": {
+    "name": "Gopi360"
+  },
+  "homepage": "https://github.com/Gopi360/freelance-toolkit",
+  "repository": "https://github.com/Gopi360/freelance-toolkit",
+  "license": "MIT",
+  "keywords": [
+    "n8n",
+    "gohighlevel",
+    "ai-chatbot",
+    "gcp",
+    "shopify",
+    "automation",
+    "freelancing"
+  ]
+}
