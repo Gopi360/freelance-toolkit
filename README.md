@@ -6,9 +6,88 @@ Works alongside [Superpowers](https://github.com/obra/superpowers) — Superpowe
 
 ## Install
 
+### Method 1: Marketplace (recommended)
+
 ```bash
-claude plugin install github:Gopi360/freelance-toolkit
+claude plugin marketplace add Gopi360/freelance-toolkit
+claude plugin install freelance-toolkit@freelance-marketplace
 ```
+
+### Method 2: Manual Install (if marketplace install fails)
+
+On **Windows** and sometimes **macOS**, the plugin system can fail with `EPERM: operation not permitted` during file rename operations. This is an OS-level file locking issue, not a bug in your setup.
+
+If you hit this error, install manually:
+
+**Option A: Run the install script**
+
+```bash
+git clone https://github.com/Gopi360/freelance-toolkit.git
+cd freelance-toolkit
+chmod +x install.sh
+./install.sh
+```
+
+This copies all 5 skills to `~/.claude/skills/`. The `/new-client` command won't be available as a slash command — instead, tell Claude "scaffold a new client project" and it will follow the same flow.
+
+**Option B: Full manual plugin registration**
+
+If you want the full plugin experience (skills + `/new-client` slash command), manually place the files where Claude Code expects them:
+
+```bash
+# 1. Clone the marketplace
+git clone https://github.com/Gopi360/freelance-toolkit.git ~/.claude/plugins/marketplaces/freelance-marketplace
+
+# 2. Clone the plugin cache
+git clone https://github.com/Gopi360/freelance-toolkit.git ~/.claude/plugins/cache/freelance-marketplace/freelance-toolkit/1.0.0
+```
+
+Then add these entries to your Claude Code config files:
+
+**`~/.claude/plugins/known_marketplaces.json`** — add inside the top-level object:
+```json
+"freelance-marketplace": {
+  "source": {
+    "source": "github",
+    "repo": "Gopi360/freelance-toolkit"
+  },
+  "installLocation": "<YOUR_HOME>/.claude/plugins/marketplaces/freelance-marketplace",
+  "lastUpdated": "2026-03-28T00:00:00.000Z"
+}
+```
+
+**`~/.claude/plugins/installed_plugins.json`** — add inside `"plugins"`:
+```json
+"freelance-toolkit@freelance-marketplace": [
+  {
+    "scope": "user",
+    "installPath": "<YOUR_HOME>/.claude/plugins/cache/freelance-marketplace/freelance-toolkit/1.0.0",
+    "version": "1.0.0",
+    "installedAt": "2026-03-28T00:00:00.000Z",
+    "lastUpdated": "2026-03-28T00:00:00.000Z",
+    "gitCommitSha": "<run git rev-parse HEAD in the cloned repo>"
+  }
+]
+```
+
+**`~/.claude/settings.json`** — add to `"enabledPlugins"`:
+```json
+"freelance-toolkit@freelance-marketplace": true
+```
+
+And add to `"extraKnownMarketplaces"`:
+```json
+"freelance-marketplace": {
+  "source": {
+    "source": "github",
+    "repo": "Gopi360/freelance-toolkit"
+  }
+}
+```
+
+Replace `<YOUR_HOME>` with your actual home directory path (e.g., `C:\\Users\\YourName` on Windows, `/Users/yourname` on macOS).
+
+Restart Claude Code after editing these files.
 
 ## What You Get
 
